@@ -1,0 +1,46 @@
+assembly-versioning-scheme: MajorMinorPatch
+assembly-file-versioning-scheme: MajorMinorPatchTag
+assembly-informational-format: '{InformationalVersion}'
+mode: Mainline
+tag-prefix: 'v'
+ignore:
+  sha: []
+  commits-before: 2024-05-20T12:00:00
+branches:
+  main:
+    regex: ^main$
+    increment: Minor
+    prevent-increment-of-merged-branch-version: true
+    source-branches: ['develop', 'release']
+
+  develop:
+    tag: dev
+    regex: ^dev$
+    increment: Patch
+    source-branches: ['feature', 'bugfix']
+
+  release:
+    regex: ^[Rr]elease\/.*$
+    increment: Patch
+    tracks-release-branches: true
+    is-release-branch: true
+    is-mainline: true
+    source-branches: ['develop']
+
+  version:
+    regex: ^[Vv]ersion\/.*$
+    increment: Patch
+    prevent-increment-of-merged-branch-version: true
+    source-branches: ['bugfix']
+
+  feature:
+    tag: feature
+    regex: ^[Ff]eature\/.*$
+    increment: Inherit
+    source-branches: ['develop']
+
+  bugfix:
+    tag: bugfix
+    regex: ^[Bb]ug[Ff]ix\/.*$
+    increment: Inherit
+    source-branches: ['develop', 'version']
